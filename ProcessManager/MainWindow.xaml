@@ -1,0 +1,53 @@
+﻿<Window x:Class="ProcessManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProcessManager"
+        mc:Ignorable="d"
+        FontSize="15"
+        Title="Process Manager" Height="450" Width="800">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="R" Gesture="Ctrl+R" Command="{Binding NewProcessCommand}"/>
+        <KeyBinding Modifiers="Control" Key="X" Gesture="Ctrl+X" Command="{Binding EndTaskCommand}"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Run New Task" InputGestureText="Ctrl+R" Command="{Binding NewProcessCommand}"/>
+                <MenuItem Header="_Exit" Command="{Binding ExitCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Processes}"
+                  SelectedItem="{Binding SelectedProcess}"
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" 
+                                    Binding="{Binding ProcessName}"
+                                    Width="*"/>
+                <DataGridTextColumn Header="PID"
+                                    Binding="{Binding Pid}"
+                                    Width="*"/>
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="End Task" InputGestureText="Ctrl+X" Command="{Binding EndTaskCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="End Task" VerticalAlignment="Center" Margin="10" Padding="5"
+                    Command="{Binding EndTaskCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>
